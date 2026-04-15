@@ -52,14 +52,21 @@ def load_key_file():
     return key
 
 
-def encrypt():
+def get_key():
     print("Load key from file?")
     if user_bool():
         key = load_key_file()
     else:
         print("Please enter your key")
         key = crypto.get_key_stdin()
-
+    return key
+def sha_256(text):
+    hash = hashlib.sha256()
+    hash.update(crypto.convert_text_to_bytes(text))
+    hashed= hash.hexdigest()
+    return hashed
+def encrypt():
+    key = get_key()
     print("Enter the text to be encrypted")
     text = input()
 
@@ -70,15 +77,50 @@ def encrypt():
     if user_bool():
         write_text_to_file("data", encrypted_text)
     #hashing section
-
-    hash = hashlib.sha256()
-    hash.update(crypto.convert_text_to_bytes(text))
-    hashed= hash.hexdigest()
+    
+    hashed = sha_256(text)
+    
     print("Hashed message, use this for verification")
     print(hashed)
     print("Save to hash to disk?")
     if user_bool():
         write_text_to_file("hash", hashed)
+
+
+def decrypt():
+    key = get_key()
+    print("Load encrypted data from file?")
+    if user_bool():
+        data_text = read_line_by_file_name("data")
+    else:
+        print("Enter data via stdin")
+        data_text = input()
+
+    data_text = data_text.strip()
+    encrypted_bytes = crypto.convert_text_to_bytes(data_text)
+
+    result = key.decrypt(encrypted_bytes)
+    unencrypted_text = crypto.convert_bytes_to_text(result)
+    print(unencrypted_text)
+
+    print("Would you like to verify the results via hash")
+    if not user_bool():
+        return #Early exit
+    print("Load original hash from disk?")
+    if user_bool():
+        original_hash = read_line_by_file_name("hash")
+    else:
+        print("enter hash by hand")
+        original_hash = input()
+    original_hash = original_hash.strip()
+    new_hash = sha_256(unencrypted_text)
+    if original_hash == new_hash:
+        print("Hashes match!")
+    else:
+        print("Hashes do not match, data may have been compromised")
+
+
+
 
 
 def main():
@@ -96,6 +138,8 @@ def main():
         generate_key()
     if choice =="2":
         encrypt()
+    if choice =="3":
+        decrypt()
 
 
 
