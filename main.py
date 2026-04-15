@@ -39,6 +39,7 @@ def generate_key():
     print("Save this key to file \"key\"")
     if user_bool():
         write_text_to_file("key", key_text)
+        print("saved")
 
 
 def load_key_file():
@@ -68,12 +69,16 @@ def encrypt():
     print("Do you wish to save this data to the file \"data\"")
     if user_bool():
         write_text_to_file("data", encrypted_text)
-
     #hashing section
 
-    # hash = hashlib.sha256()
-    # hashed = hash.update(crypto.convert_text_to_bytes(text))
-    # print(hashed)
+    hash = hashlib.sha256()
+    hash.update(crypto.convert_text_to_bytes(text))
+    hashed= hash.hexdigest()
+    print("Hashed message, use this for verification")
+    print(hashed)
+    print("Save to hash to disk?")
+    if user_bool():
+        write_text_to_file("hash", hashed)
 
 
 def main():
@@ -83,7 +88,6 @@ def main():
     print("1. Generate Key")
     print("2. Encrypt")
     print("3. Decrypt")
-    print("4. Verify")
 
 
     choice = input()
