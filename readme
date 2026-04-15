@@ -1,1 +1,9 @@
 Michael Gallagher's Midterm for SDEV245
+
+Requirements
+
+This project uses the following Python libraries. I sourced mine using the pip and a venv virtual environment
+
+In order to make this work better with my setup (ssh into server with tmux), I have modified this so that the key will be stored to a local file "key", the hash stored to a local file "hash", and the ecnrypted data to be stored into the data file. 
+
+Storing and looading will require a confirmation before doing so. The data will also be printed onto screen for possible easier verificatino
