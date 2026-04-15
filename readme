@@ -7,3 +7,11 @@ This project uses the following Python libraries. I sourced mine using the pip a
 In order to make this work better with my setup (ssh into server with tmux), I have modified this so that the key will be stored to a local file "key", the hash stored to a local file "hash", and the ecnrypted data to be stored into the data file. 
 
 Storing and looading will require a confirmation before doing so. The data will also be printed onto screen for possible easier verificatino
+
+My program demonstrates the confidentiality part of the triad by ensuring that only users with access to the symetric key can access the data.
+It also demonstrates the integrity part of the triad via the hashing mechanism. By comparing both the bashes before and after decryption, the user can be confident that the  data was not tampered with.
+
+My program does not deal with the avaiability component.
+
+In random number generation, entropy refers to the amount of "true randomness". In other words, a low entropy source of randomization is easier to predict, whereas
+a high entropy refers to a source of randomization that is closer to being truly random. In key generation this is important because the security of a key determines the security of the system. If you compromise the key used to encode or decode data, you can alter this data in order to compromise integrity.
